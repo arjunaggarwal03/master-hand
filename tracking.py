@@ -3,7 +3,7 @@ import mediapipe as mp
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=True,max_num_hands=2,min_detection_confidence=0.7)
+hands = mp_hands.Hands(static_image_mode=True,max_num_hands=2,min_detection_confidence=0.5)
 drawing_styles = mp.solutions.drawing_styles
 
 cap = cv2.VideoCapture(0)
@@ -28,10 +28,10 @@ while True:
           print("Thumb: " + str(lms.landmark[4]))
           print("Index: " + str(lms.landmark[8]))
           mp_drawing.draw_landmarks(img,lms,mp_hands.HAND_CONNECTIONS)
-          
-          x1, y1 = int(lms.landmark[4].x)*w, int(lms.landmark[4].y)*h
-          x2, y2 = int(lms.landmark[8].x)*w, int(lms.landmark[8].y)*h
-          cv2.line(img, (x1,y1), (x2,y2), (255,0,255), cv2.FILLED)
+
+          x1, y1 = int(lms.landmark[4].x*w), int(lms.landmark[4].y*h)
+          x2, y2 = int(lms.landmark[8].x*w), int(lms.landmark[8].y*h)
+          cv2.line(img, (x1,y1), (x2,y2), (255,0,255), 30)
 
     cv2.imshow('lol', img)
     cv2.waitKey(1)
