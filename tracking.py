@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import math
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
@@ -25,13 +26,17 @@ while True:
 
     if results.multi_hand_landmarks:
       for lms in results.multi_hand_landmarks:
-          print("Thumb: " + str(lms.landmark[4]))
-          print("Index: " + str(lms.landmark[8]))
+          # print("Thumb: " + str(lms.landmark[4]))
+          # print("Index: " + str(lms.landmark[8]))
           mp_drawing.draw_landmarks(img,lms,mp_hands.HAND_CONNECTIONS)
 
           x1, y1 = int(lms.landmark[4].x*w), int(lms.landmark[4].y*h)
           x2, y2 = int(lms.landmark[8].x*w), int(lms.landmark[8].y*h)
-          cv2.line(img, (x1,y1), (x2,y2), (255,0,255), 30)
+
+          distance = math.sqrt(((x1-x2)**2)+((y1-y2)**2))
+          scaled = int((distance/125)*600)
+          
+          cv2.line(img, (30,30), (scaled,30), (255,0,255), 20)
 
     cv2.imshow('lol', img)
     cv2.waitKey(1)
